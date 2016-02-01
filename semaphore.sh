@@ -68,7 +68,8 @@ pushd build
 ./configure --enable-functional-tests \
       --with-stage1-flavors=src \
       --with-stage1-systemd-src=$SYSTEMD_DIR \
-      --with-stage1-systemd-version=$SYSTEMD_BRANCH
+      --with-stage1-systemd-version=$SYSTEMD_BRANCH \
+      --enable-tpm=no
 
 make -j 4
 make check

@@ -40,8 +40,17 @@ echo
 
 cd
 
-URL=https://github.com/coreos/rkt.git
-BRANCH=master
+if [ "$SEMAPHORE_CURRENT_THREAD" = "1" ] ; then
+  URL=https://github.com/coreos/rkt.git
+  BRANCH=master
+elif [ "$SEMAPHORE_CURRENT_THREAD" = "2" ] ; then
+  URL=https://github.com/kinvolk/rkt.git
+  BRANCH=alban/coreos-exit-code
+else
+  echo "SEMAPHORE_CURRENT_THREAD=$SEMAPHORE_CURRENT_THREAD"
+  exit 1
+fi
+
 git clone --quiet $URL rkt-with-systemd
 cd rkt-with-systemd
 git checkout $BRANCH

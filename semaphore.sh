@@ -45,9 +45,7 @@ if [ "$SEMAPHORE_CURRENT_THREAD" = "1" ] ; then
   BRANCH=master
 elif [ "$SEMAPHORE_CURRENT_THREAD" = "2" ] ; then
   URL=https://github.com/kinvolk/rkt.git
-  BRANCH=alban/coreos-exit-code
-  echo "Build disabled"
-  exit 0
+  BRANCH=alban/machine-id
 else
   echo "SEMAPHORE_CURRENT_THREAD=$SEMAPHORE_CURRENT_THREAD"
   exit 1

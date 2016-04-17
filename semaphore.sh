@@ -43,6 +43,8 @@ cd
 if [ "$SEMAPHORE_CURRENT_THREAD" = "1" ] ; then
   URL=https://github.com/coreos/rkt.git
   BRANCH=master
+  echo "Build disabled"
+  exit 0
 elif [ "$SEMAPHORE_CURRENT_THREAD" = "2" ] ; then
   URL=https://github.com/kinvolk/rkt.git
   BRANCH=alban/machine-id

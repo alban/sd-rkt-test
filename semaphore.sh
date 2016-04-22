@@ -23,12 +23,33 @@ if [ "$1" = "setup" ] ; then
   exit 0
 fi
 
+if [ "$SEMAPHORE_CURRENT_THREAD" = "1" ] ; then
+  #RKT_URL=https://github.com/coreos/rkt.git
+  #RKT_BRANCH=master
+  #echo "Build disabled"
+  #exit 0
+
+  RKT_URL=https://github.com/kinvolk/rkt.git
+  RKT_BRANCH=alban/machine-id
+
+  SYSTEMD_URL=https://github.com/poettering/systemd.git
+  SYSTEMD_BRANCH=nspawn-userns-magic
+elif [ "$SEMAPHORE_CURRENT_THREAD" = "2" ] ; then
+  RKT_URL=https://github.com/kinvolk/rkt.git
+  RKT_BRANCH=alban/machine-id
+
+  SYSTEMD_URL=https://github.com/systemd/systemd.git
+  SYSTEMD_BRANCH=master
+else
+  echo "SEMAPHORE_CURRENT_THREAD=$SEMAPHORE_CURRENT_THREAD"
+  exit 1
+fi
+
 cd
-git clone https://github.com/systemd/systemd.git
+git clone $SYSTEMD_URL
 cd systemd
 
 SYSTEMD_DIR=$PWD
-SYSTEMD_BRANCH=master
 
 date
 echo "Semaphore thread: $SEMAPHORE_CURRENT_THREAD"
@@ -40,24 +61,11 @@ echo
 
 cd
 
-if [ "$SEMAPHORE_CURRENT_THREAD" = "1" ] ; then
-  URL=https://github.com/coreos/rkt.git
-  BRANCH=master
-  echo "Build disabled"
-  exit 0
-elif [ "$SEMAPHORE_CURRENT_THREAD" = "2" ] ; then
-  URL=https://github.com/kinvolk/rkt.git
-  BRANCH=alban/machine-id
-else
-  echo "SEMAPHORE_CURRENT_THREAD=$SEMAPHORE_CURRENT_THREAD"
-  exit 1
-fi
-
-git clone --quiet $URL rkt-with-systemd
+git clone --quiet $RKT_URL rkt-with-systemd
 cd rkt-with-systemd
-git checkout $BRANCH
+git checkout $RKT_BRANCH
 
-echo "rkt git branch: $BRANCH"
+echo "rkt git branch: $RKT_BRANCH"
 echo "rkt git describe: $(git describe HEAD)"
 echo "Last two rkt commits:"
 git log -n 2 | cat

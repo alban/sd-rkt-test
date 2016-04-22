@@ -46,20 +46,6 @@ else
 fi
 
 cd
-git clone $SYSTEMD_URL
-cd systemd
-
-SYSTEMD_DIR=$PWD
-
-date
-echo "Semaphore thread: $SEMAPHORE_CURRENT_THREAD"
-echo "systemd git branch: $SYSTEMD_BRANCH"
-echo "systemd git describe: $(git describe HEAD)"
-echo "Last two systemd commits:"
-git log -n 2 | cat
-echo
-
-cd
 
 git clone --quiet $RKT_URL rkt-with-systemd
 cd rkt-with-systemd
@@ -86,7 +72,7 @@ pushd build
 ./autogen.sh
 ./configure --enable-functional-tests \
       --with-stage1-flavors=src \
-      --with-stage1-systemd-src=$SYSTEMD_DIR \
+      --with-stage1-systemd-src=$SYSTEMD_URL \
       --with-stage1-systemd-version=$SYSTEMD_BRANCH \
       --enable-tpm=no
 

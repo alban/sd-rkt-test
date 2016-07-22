@@ -30,7 +30,7 @@ if [ "$SEMAPHORE_CURRENT_THREAD" = "1" ] ; then
   #exit 0
 
   RKT_URL=https://github.com/kinvolk/rkt.git
-  RKT_BRANCH=alban/machine-id
+  RKT_BRANCH=alban/for-systemd-next
 
   SYSTEMD_URL=https://github.com/poettering/systemd.git
   SYSTEMD_BRANCH=nspawn-userns-magic
